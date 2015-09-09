@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenTopo - 37.5/200/400/800/1600px/km - OSM/Google Tiles</title>
+    <script src="scripts/winstore-jscompat.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <meta charset="utf-8" />
+    <meta name="author" content="Just van den Broecke">
+    <link href="css/leaflet.css" rel="stylesheet" />
+    <script src="scripts/leaflet.js"></script>
+    <script src="scripts/gpx.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <!--GPS1 references -->
+    <link href="css/index.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+
+    // Layer defs
+    var opentopo = L.tileLayer(
+         'http://s.map5.nl/map/gast/tiles/opentopo/EPSG900913/{z}/{x}/{y}.jpeg', {
+        // tms: true,
+        maxZoom: 18,
+        continuousWorld: true,
+        detectRetina: false,
+        attribution: 'CC by CA <a href="http://www.opentopo.nl">OpenTopo</a> - <a href=http://openstreetmap.org>OpenStreetMap</a>'
+    });
+
+    var eu = L.tileLayer(
+            'http://4umaps.eu/{z}/{x}/{y}.png', {
+         tms: false,
+         maxZoom: 16,
+         continuousWorld: true,
+         detectRetina: false,
+         attribution: '<a href="http://4umaps.eu">4umaps.eu</a>'
+     });
+
+    var opensimpletopo = L.tileLayer(
+        'http://s.map5.nl/map/gast/tiles/opensimpletopo/EPSG900913/{z}/{x}/{y}.jpeg', {
+            // tms: true,
+            maxZoom: 18,
+            continuousWorld: true,
+            detectRetina: false,
+            attribution: 'CC by CA <a href="http://www.opensimpletopo.nl">OpenSimpleTopo</a> - <a href=http://openstreetmap.org>OpenStreetMap</a>'
+        });
+
+    var openlufo = L.tileLayer(
+        'http://s.map5.nl/map/gast/tiles/openlufo/EPSG900913/{z}/{x}/{y}.jpeg', {
+            // tms: true,
+            maxZoom: 18,
+            continuousWorld: true,
+            detectRetina: false,
+            attribution: 'CC by CA <a href="http://www.opensimpletopo.nl">OpenSimpleTopo</a> - <a href=http://openstreetmap.org>OpenStreetMap</a>'
+        });
+
+    var bonne1900 = L.tileLayer(
+             'http://s.map5.nl/map/gast/tiles/bonne_1900/EPSG900913/{z}/{x}/{y}.png', {
+                 //tms: true,
+                 maxZoom: 18,
+                 continuousWorld: true,
+                 detectRetina: false,
+                 attribution: '<a href="http://www.kadaster.nl">Bonne1900</a>'
+             });
+
+    var bonne1925 = L.tileLayer(
+         'http://s.map5.nl/map/gast/tiles/bonne_1925/EPSG900913/{z}/{x}/{y}.png', {
+             //tms: true,
+             maxZoom: 18,
+             continuousWorld: true,
+             detectRetina: false,
+             attribution: '<a href="http://www.kadaster.nl">Bonne1925</a>'
+         });
+
+    var tmk_1850 = L.tileLayer(
+        'http://s.map5.nl/map/gast/tiles/tmk_1850/EPSG900913/{z}/{x}/{y}.png', {
+        //tms: true,
+        maxZoom: 18,
+        continuousWorld: true,
+        detectRetina: false,
+        attribution: '<a href="http://www.kadaster.nl">TMK 1850</a>'
+    });
+
+    var bonne1949 = L.tileLayer(
+    'http://s.map5.nl/map/gast/tiles/bonne_1949/EPSG900913/{z}/{x}/{y}.png', {
+        //tms: true,
+        maxZoom: 18,
+        continuousWorld: true,
+        detectRetina: false,
+        attribution: '<a href="http://www.kadaster.nl">Bonne1949</a>'
+    });
+
+    var topraster = L.tileLayer(
+        'http://s.map5.nl/map/gast/tiles/topraster/EPSG900913/{z}/{x}/{y}.jpeg', {
+        //tms: true,
+        maxZoom: 18,
+        continuousWorld: true,
+        detectRetina: false,
+        attribution: '<a href="http://www.kadaster.nl">Bonne</a>'
+    });
+
+    var relief_struct62 = L.tileLayer(
+        'http://s.map5.nl/map/gast/tiles/relief_struct/EPSG900913/{z}/{x}/{y}.jpeg', {
+        //tms: true,
+        maxZoom: 18,
+        continuousWorld: true,
+        detectRetina: false,
+        transparent: 'true',
+        opacity: 0.62,
+        attribution: '<a href="http://www.kadaster.nl">Bonne</a>'
+        });
+
+    var relief_struct38 = L.tileLayer(
+    'http://s.map5.nl/map/gast/tiles/relief_struct/EPSG900913/{z}/{x}/{y}.jpeg', {
+        //tms: true,
+        maxZoom: 18,
+        continuousWorld: true,
+        detectRetina: false,
+        transparent: 'true',
+        opacity: 0.38,
+        attribution: '<a href="http://www.kadaster.nl">Bonne</a>'
+    });
+
+        // Overlay layers
+    var fietsknooppunten = L.tileLayer.wms('http://geodata.nationaalgeoregister.nl/fietsknooppuntennetwerk/ows?SERVICE=WMS&knooppunten', {
+        layers: 'knooppunten',
+        minZoom: 12,
+        maxZoom: 18,
+        format: 'image/png',
+        transparent: true,
+
+        attribution: 'PDOK Knooppunten'
+    });
+
+    var fietsknooppuntlijnen = L.tileLayer.wms('http://geodata.nationaalgeoregister.nl/fietsknooppuntennetwerk/ows?SERVICE=WMS&netwerken', {
+        layers: 'netwerken',
+        minZoom: 12,
+        maxZoom: 18,
+        format: 'image/png',
+        transparent: true,
+        attribution: 'PDOK Knooppuntlijnen'
+    });
+
+    // grouping the layers
+    var baseLayers = {
+        "OSM-TopoMap (EU)": eu,
+        "OpenTopo (NL)": opentopo,
+        "OpenSimpleTopo (NL)": opensimpletopo,
+        "Raster (NL)": topraster,
+        "Open luchtfoto": openlufo,
+        "Dutch Historic 1900 (NL)": bonne1900,
+        "Dutch Historic 1925 (NL)": bonne1925,
+        "Dutch Historic 1949 (NL)": bonne1949,
+        "Militaire stafkaart 1850": tmk_1850
+    };
+
+   
+    var overlayLayers = {
+        "Hoogtekaart (62%)": relief_struct62,
+        "Hoogtekaart (38%)": relief_struct38,
+        "Fietsknooppuntlijnen": fietsknooppuntlijnen,
+        "Fietsknooppunten": fietsknooppunten
+        
+
+    };
+
+    // Create the map
+    var map = L.map('map', {
+        center: new L.LatLng(52.312, 5.1),
+        zoom: 9,
+        layers: [opentopo]
+    });
+
+    L.control.layers(baseLayers, overlayLayers).addTo(map);
+    //var selCtrl = L.control.selectLayers(baseLayers, overlayLayers).addTo(map);
+    
+    var gpx = 'DelftseHoutenDobbeplas.gpx';
+
+    new L.GPX(gpx, { async: true }).on('loaded', function (e) {
+        map.fitBounds(e.target.getBounds());
+    }).addTo(map);
+    </script>
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/index.js"></script>
+</body>
+</html>
