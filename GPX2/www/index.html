@@ -43,8 +43,8 @@
 
     var eu = L.tileLayer(
             'http://4umaps.eu/{z}/{x}/{y}.png', {
-         tms: false,
-         maxZoom: 16,
+         //tms: false,
+         maxZoom: 18,
          continuousWorld: true,
          detectRetina: false,
          attribution: '<a href="http://4umaps.eu">4umaps.eu</a>'
@@ -56,6 +56,7 @@
             maxZoom: 18,
             continuousWorld: true,
             detectRetina: false,
+            opacity: 0.58,
             attribution: 'CC by CA <a href="http://www.opensimpletopo.nl">OpenSimpleTopo</a> - <a href=http://openstreetmap.org>OpenStreetMap</a>'
         });
 
@@ -174,8 +175,6 @@
         "Hoogtekaart (38%)": relief_struct38,
         "Fietsknooppuntlijnen": fietsknooppuntlijnen,
         "Fietsknooppunten": fietsknooppunten
-        
-
     };
 
     // Create the map
@@ -188,11 +187,6 @@
     L.control.layers(baseLayers, overlayLayers).addTo(map);
     //var selCtrl = L.control.selectLayers(baseLayers, overlayLayers).addTo(map);
     
-    var gpx = 'DelftseHoutenDobbeplas.gpx';
-
-    new L.GPX(gpx, { async: true }).on('loaded', function (e) {
-        map.fitBounds(e.target.getBounds());
-    }).addTo(map);
     </script>
     <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>

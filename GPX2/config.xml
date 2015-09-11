@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.cordova.myappda300d" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US">
+<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.travelingo.summer2015" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US" android-versionCode="1">
   <name>GPX2</name>
-  <description>A blank project that uses Apache Cordova to help you build an app that targets multiple mobile platforms: Android, iOS, Windows, and Windows Phone.</description>
-  <author href="http://cordova.io" email="dev@cordova.apache.org">Apache Cordova Team </author>
+  <description>A project that combines the bicycle trips fromt Travelingo 2015 with the Map5.nl maps</description>
+  <author href="http://cordova.io" email="dev@cordova.apache.org">Travelingo</author>
   <content src="index.html" />
   <access origin="http://*.map5.nl" />
   <vs:features />
   <preference name="SplashScreen" value="screen" />
-  <preference name="windows-target-version" value="8.1" />
+  <preference name="windows-target-version" value="10.0" />
   <!-- Support for Cordova 5.0.0 plugin system -->
   <plugin name="cordova-plugin-whitelist" version="1" />
   <allow-intent href="http://*/*" />
@@ -106,4 +106,13 @@
   </platform>
   <access origin="http://4umaps.eu" />
   <access origin="http://*.nationaalregister.nl" />
+  <vs:platformSpecificValues>
+    <vs:platformSpecificWidget platformName="windows" id="Summer2015CycleTrips" version="1.0.0.0">
+      <vs:name>Travelingo Summer 2015 Cycle trips</vs:name>
+    </vs:platformSpecificWidget>
+  </vs:platformSpecificValues>
+  <preference name="ShowTitle" value="True" />
+  <preference name="Fullscreen" value="True" />
+  <preference name="android-minSdkVersion" value="14" />
+  <preference name="android-maxSdkVersion" value="22" />
 </widget>
